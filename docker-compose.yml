@@ -19,23 +19,23 @@ services:
     ports:
       - 3306:3306
     environment:
-      - MYSQL_DATABASE=app
-      - MYSQL_USER=flask
-      - MYSQL_PASSWORD=flask
-      - MYSQL_ROOT_PASSWORD=root
-      - TZ='Asia/Tokyo'
+      MYSQL_DATABASE: app
+      MYSQL_USER: flask
+      MYSQL_PASSWORD: flask
+      MYSQL_ROOT_PASSWORD: root
+      TZ: 'Asia/Tokyo'
     volumes:
       - ./db/data:/var/lib/mysql
       - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./db/log:/var/log/mysql
-    command: msql --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
+    # command: mysql --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 
   phpmyadmin:
     image: phpmyadmin:5.2
     environment:
-      - PMA_HOST=db
-      - PMA_USER=root
-      - PMA_PASSWORD=root
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root
     ports:
       - 4040:80
     depends_on:
