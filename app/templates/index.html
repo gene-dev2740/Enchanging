@@ -4,11 +4,29 @@
 
 {% block content %}
 <h1>{{ res.title }}</h1>
+<div id="app">
+    <p>[[ msg ]]</p>
+    <button v-on:click="btn_action" class="btn btn-primary">BTN</button>
+</div>
 {% endblock %}
 
 {% block vue %}
-new Vue({
-    delimiters: ['[[', ']]'],
-    
-});
+<script>
+    new Vue({
+        el: "#app",
+        delimiters: ['[[', ']]'],
+        data: {
+            msg: "Hello Vue",
+        },
+        methods: {
+            btn_action() {
+                this.msg = "Action!";
+            }
+        },
+        mounted() {
+
+        }
+        
+    });
+</script>
 {% endblock %}
