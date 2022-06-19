@@ -1,32 +1,86 @@
 {% extends "layout.html" %}
-{% block script %}
+{% block script_head %}
 {% endblock %}
 
 {% block content %}
 <h1>{{ res.title }}</h1>
-<div id="app">
+<div id="app" class="m-3">
     <p>[[ msg ]]</p>
-    <button v-on:click="btn_action" class="btn btn-primary">BTN</button>
+    <h1>[[ title ]]</h1>
+    <button type="button" v-on:click="btn_action1" class="btn btn-primary m-1" >BTN1</button>
+    <button type="button" v-on:click="btn_action2" class="btn btn-primary m-1" >BTN2</button>
+    <button type="button" v-on:click="btn_clear" class="btn btn-primary m-1"   >CLEAR</button>
 </div>
+<div id="app2" class="m-3 p-2 border">
+    <button type="button" v-on:click="change_show" class="btn btn-primary m-1">SHOW CHANGE</button>
+    <button type="button" v-on:click="change_num" class="btn btn-warning m-1">CHANGE_NUm</button>
+    <div v-if="show_flg" class="bg-warning m-1">
+        <p>test</p>
+    </div>
+    <div v-if="!show_flg" class="bg-danger m-1">
+        <p>test2</p>
+    </div>
+    <div v-if="n_flg==1" class="bg-primary m-1">
+        <p>number</p>
+    </div>
+
+</div>
+<a href="{{ url_for('next') }}" class="btn btn-primary">Next</a>
 {% endblock %}
 
-{% block vue %}
+{% block script_body %}
 <script>
-    new Vue({
-        el: "#app",
+
+    const App1 = {
         delimiters: ['[[', ']]'],
-        data: {
-            msg: "Hello Vue",
-        },
-        methods: {
-            btn_action() {
-                this.msg = "Action!";
+        data() {
+            return {
+                title: "{{ res.title }}",
+                msg: "test_msg"
             }
         },
-        mounted() {
+        methods: {
+            btn_action1() {
+                this.msg = "Action1";
+            },
+            btn_action2() {
+                this.msg = "Action2";
+            },
+            btn_clear() {
+                this.msg = "Hello Vue";
+            }
+        },
+    };
 
+    Vue.createApp(App1).mount("#app")
+
+    const App2 = {
+        delimiters: ['[[', ']]'],
+        data() {
+            return {
+                show_flg: true,
+                n_flg: 0
+            }
+        },
+        methods: {
+            change_show() {
+                if (this.show_flg) {
+                    this.show_flg = false;
+                } else {
+                    this.show_flg = true;
+                }
+            },
+            change_num() {
+                if (this.n_flg == 0) {
+                    this.n_flg = 1;
+                } else {
+                    this.n_flg = 0;
+                }
+            }
         }
-        
-    });
+    };
+
+    Vue.createApp(App2).mount("#app2")
+
 </script>
 {% endblock %}

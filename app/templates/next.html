@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div id="app">
+        <template-item :item="item1">
+        </template-item>
+        <template-item :item="item2">
+        </template-item>
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+            <template-table
+                v-for="item in items"
+                :item="item"
+            ></template-table>
+        </table>
+        <input type="text" class="form-control" v-model="txt_1">
+        <button type="button" class="btn btn-primary m-1" v-on:click="btn1">GET</button>
+        <button type="button" class="btn btn-info m-1" v-on:click="btn2">SET</button>
+        <button type="button" class="btn btn-warning m-1" v-on:click="btn3">CALC</button>
+        <input type="text" class="form-control" v-model="txt_1">
+        <p>[[ txt_1 ]]</p>
+    </div>
+{% endblock %}
+
+{% block script_body %}
+<script>
+    const TemplateItem = {
+        delimiters: ['[[', ']]'],
+        props: ['item'],
+        template: `<div class="m-3" :class="item.bg">
+                    [[ item.msg ]]
+                </div>`,
+    };
+
+    const TemplateTable = {
+        delimiters: ['[[', ']]'],
+        props: ['item'],
+        template: `
+                <tr>
+                    <td>[[ item.id ]]</td>
+                    <td>[[ item.name ]]</td>
+                </tr>
+        `,
+    }
+
+    const App = {
+        delimiters: ['[[', ']]'],
+        data() {
+            return {
+                item1: {
+                    msg: "aaaaaa",
+                    bg: "bg-primary"
+                },
+                item2: {
+                    msg: "bbbbbbb",
+                    bg: "bg-warning"
+                },
+                items: [
+                    {id: 0, name: "name1"},
+                    {id: 1, name: "name2"}
+                ],
+                txt_1: ""
+            }
+        },
+        methods: {
+            btn1() {
+                console.log(this.txt_1);
+            },
+            btn2() {
+                this.txt_1 = "input set";
+            },
+            btn3() {
+                
+            }
+        },
+        components: {
+//            TemplateItem,
+            TemplateTable
+        }
+    };
+
+    Vue.createApp(App).mount("#app");
+
+</script>
+{% endblock %}
